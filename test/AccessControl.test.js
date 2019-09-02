@@ -1,24 +1,23 @@
-const AccessControl = artifacts.require('./AccessControl');
+const AccessControl = artifacts.require("./AccessControl");
 
-contract('AccessControl', accounts => {
-
+contract("AccessControl", accounts => {
   const deployerAddr = accounts[0];
   const addr0 = accounts[1];
   const addr1 = accounts[2];
 
-  it('...should test if the user that deployed is an admin', () => 
+  it("...should test if the user that deployed is an admin", () =>
     AccessControl.deployed()
       .then(instance => instance.isAdmin(deployerAddr))
-      .then(res => assert.equal(res, true))
-  );
+      .then(res => assert.equal(res, true)));
 
-  it('...should add an admin', () => {
+  it("...should add an admin", () => {
     let accessControlInstance;
     return AccessControl.deployed()
       .then(instance => {
         accessControlInstance = instance;
         return accessControlInstance.isAdmin.call(addr0);
-      }).then(res => {
+      })
+      .then(res => {
         assert.equal(res, false);
         return accessControlInstance.addAdmin.sendTransaction(addr0);
       })
@@ -26,7 +25,7 @@ contract('AccessControl', accounts => {
       .then(res => assert.equal(res, true));
   });
 
-  it('...should remove an admin', () => {
+  it("...should remove an admin", () => {
     let accessControlInstance;
     return AccessControl.deployed()
       .then(instance => {

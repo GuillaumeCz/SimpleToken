@@ -15,10 +15,9 @@
     "prettier-plugin-solidity": "^1.0.0-alpha.32"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --write '**/*.js' '**/*.sol'",
-    "prettier-sol": "prettier --write '**/*.js'"
+    "test": "truffle test",
+    "prettier": "prettier --write '**/*.js' '**/*.sol'"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

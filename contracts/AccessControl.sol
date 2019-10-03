@@ -5,8 +5,8 @@ contract AccessControl {
     mapping(address => bool) internal adminList;
 
     modifier onlyAdmin() {
-      require(adminList[msg.sender]);
-      _;
+        require(adminList[msg.sender]);
+        _;
     }
 
     modifier onlyUser() {
@@ -23,8 +23,8 @@ contract AccessControl {
     }
 
     function addAdmin(address _addr) public onlyAdmin {
-      userList[_addr] = true;
-      adminList[_addr] = true;
+        userList[_addr] = true;
+        adminList[_addr] = true;
     }
 
     function removeUser(address _addr) public onlyAdmin {
@@ -40,6 +40,6 @@ contract AccessControl {
     }
 
     function isAdmin(address _addr) public view returns (bool isAdmin_) {
-      isAdmin_ = adminList[_addr];
+        isAdmin_ = adminList[_addr];
     }
 }

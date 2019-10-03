@@ -16,7 +16,8 @@
   },
   "scripts": {
     "test": "truffle test",
-    "prettier": "prettier --write '**/*.js' '**/*.sol'"
+    "prettier": "prettier --write '**/*.js' '**/*.sol'",
+    "qa": "npm run prettier && truffle test"
   },
   "author": "",
   "license": "MIT"

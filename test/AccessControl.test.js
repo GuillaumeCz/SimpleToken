@@ -2,41 +2,38 @@ const AccessControl = artifacts.require("./AccessControl");
 
 contract("AccessControl", accounts => {
   const deployerAddr = accounts[0];
-  const addr0 = accounts[1];
-  const addr1 = accounts[2];
+  const admin0 = accounts[1];
+  const user0 = accounts[2];
 
-  it("...should test if the user that deployed is an user", () =>
+  let instance;
+
+  before(() => {
     AccessControl.deployed()
-      .then(instance => instance.isUser(deployerAddr))
-      .then(res => assert.equal(res, true)));
+      .then(inst => {
+        instance = inst;
+      });
+  });
 
-  it("...should add an user", () => {
-    let accessControlInstance;
-    return AccessControl.deployed()
-      .then(instance => {
-        accessControlInstance = instance;
-        return accessControlInstance.isUser.call(addr0);
-      })
-      .then(res => {
-        assert.equal(res, false);
-        return accessControlInstance.addUser.sendTransaction(addr0);
-      })
-      .then(res => accessControlInstance.isUser.call(addr0))
-      .then(res => assert.equal(res, true));
+  it("...should test if the user that deployed is an admin", () =>
+    instance.isAdmin(deployerAddr)
+    .then(isAdmin => assert.equal(isAdmin, true)));
+
+  it("...should autorize an admin to add a user", () => {
+    return instance.isUser(admin0)
+      .then(isUser => {
+        assert.equal(isUser, false);
+        return instance.addUser(admin0);
+      }).then(() => instance.isUser.call(admin0))
+      .then(isUser => assert.equal(isUser, true));
   });
 
   it("...should remove an user", () => {
-    let accessControlInstance;
-    return AccessControl.deployed()
-      .then(instance => {
-        accessControlInstance = instance;
-        return accessControlInstance.isUser.call(addr0);
+      return instance.isUser.call(admin0)
+      .then(isUser => {
+        assert.equal(isUser, true);
+        return instance.removeUser.sendTransaction(admin0);
       })
-      .then(res => {
-        assert.equal(res, true);
-        return accessControlInstance.removeUser.sendTransaction(addr0);
-      })
-      .then(res => accessControlInstance.isUser.call(addr0))
-      .then(res => assert.equal(res, false));
+      .then(() => instance.isUser.call(admin0))
+      .then(isUser => assert.equal(isUser, false));
   });
 });

@@ -34,13 +34,17 @@ contract NameSystem is AccessControl {
         record_ = nameToRecord[_name];
     }
 
-    function removeRecord(uint256 _id) public onlyAdmin returns (bool success_) {
-      Record memory record = indexRecord[_id];
-      delete nameToRecord[record.name];
-      delete addrToRecord[record.addr];
-      delete indexRecord[_id];
-      recordCount--;
-      success_ = true;
+    function removeRecord(uint256 _id)
+        public
+        onlyAdmin
+        returns (bool success_)
+    {
+        Record memory record = indexRecord[_id];
+        delete nameToRecord[record.name];
+        delete addrToRecord[record.addr];
+        delete indexRecord[_id];
+        recordCount--;
+        success_ = true;
     }
 
     function addRecord(address _addr, string memory _name)

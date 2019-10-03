@@ -26,7 +26,7 @@ contract NameSystem is AccessControl {
 
     function linkAddrToName(address _addr, string memory _name)
         public
-        onlyAdmin
+        onlyUser
         returns (bool success_)
     {
         require(

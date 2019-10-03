@@ -30,7 +30,7 @@ contract SimpleToken is ERC721Full, AccessControl {
         address _from,
         address _to,
         string memory _details
-    ) public onlyAdmin returns (uint256) {
+    ) public onlyUser returns (uint256) {
         uint256 simpleTokenId = _tokenCounter++;
         _mint(_from, simpleTokenId);
 
@@ -44,7 +44,7 @@ contract SimpleToken is ERC721Full, AccessControl {
         return simpleTokenId;
     }
 
-    function burnSimpleToken(address _owner, uint256 _id) public onlyAdmin {
+    function burnSimpleToken(address _owner, uint256 _id) public onlyUser {
         _burn(_owner, _id);
         // TODO: find how to remove (or reset)
         // _tokenList[_id] =

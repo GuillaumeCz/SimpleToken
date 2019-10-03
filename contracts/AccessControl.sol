@@ -1,26 +1,26 @@
 pragma solidity ^0.5.0;
 
 contract AccessControl {
-    mapping(address => bool) internal adminList;
+    mapping(address => bool) internal userList;
 
-    modifier onlyAdmin() {
-        require(adminList[msg.sender]);
+    modifier onlyUser() {
+        require(userList[msg.sender]);
         _;
     }
 
     constructor() public {
-        adminList[msg.sender] = true;
+        userList[msg.sender] = true;
     }
 
-    function addAdmin(address _addr) public onlyAdmin {
-        adminList[_addr] = true;
+    function addUser(address _addr) public onlyUser {
+        userList[_addr] = true;
     }
 
-    function removeAdmin(address _addr) public onlyAdmin {
-        adminList[_addr] = false;
+    function removeUser(address _addr) public onlyUser {
+        userList[_addr] = false;
     }
 
-    function isAdmin(address _addr) public view returns (bool isAdmin_) {
-        isAdmin_ = adminList[_addr];
+    function isUser(address _addr) public view returns (bool isUser_) {
+        isUser_ = userList[_addr];
     }
 }

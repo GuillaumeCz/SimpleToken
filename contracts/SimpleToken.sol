@@ -1,4 +1,5 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 // see https://github.com/OpenZeppelin/simplezeppelin-solidity/tree/master/contracts/token/ERC721
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
@@ -30,7 +31,8 @@ contract SimpleToken is ERC721Full, AccessControl {
         address _from,
         address _to,
         string memory _details
-    ) public onlyUser returns (uint256) {
+    ) public onlyAdmin returns (uint256) {
+       // require(isUser(_from) && isUser(_to));
         uint256 simpleTokenId = _tokenCounter++;
         _mint(_from, simpleTokenId);
 
@@ -56,18 +58,11 @@ contract SimpleToken is ERC721Full, AccessControl {
 
     function getSimpleToken(uint256 _tokenId)
         public
+        onlyAdmin
         view
         returns (
-            uint256 tokenId_,
-            address tokenFrom_,
-            address tokenTo_,
-            string memory details_
-        )
+            SimpleTkn memory token        )
     {
-        SimpleTkn memory simpleToken = _tokenList[_tokenId];
-        tokenId_ = _tokenId;
-        tokenFrom_ = simpleToken.from;
-        tokenTo_ = simpleToken.to;
-        details_ = simpleToken.details;
+        token = _tokenList[_tokenId];
     }
 }

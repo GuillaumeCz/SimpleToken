@@ -32,7 +32,7 @@ contract SimpleToken is ERC721Full, AccessControl {
         address _to,
         string memory _details
     ) public onlyAdmin returns (uint256) {
-       // require(isUser(_from) && isUser(_to));
+        // require(isUser(_from) && isUser(_to));
         uint256 simpleTokenId = _tokenCounter++;
         _mint(_from, simpleTokenId);
 
@@ -58,10 +58,9 @@ contract SimpleToken is ERC721Full, AccessControl {
 
     function getSimpleToken(uint256 _tokenId)
         public
-        onlyAdmin
         view
-        returns (
-            SimpleTkn memory token        )
+        onlyAdmin
+        returns (SimpleTkn memory token)
     {
         token = _tokenList[_tokenId];
     }

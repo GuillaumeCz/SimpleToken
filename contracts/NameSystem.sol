@@ -16,12 +16,20 @@ contract NameSystem is AccessControl {
     mapping(address => Record) internal addrToRecord;
     mapping(uint256 => Record) internal indexRecord;
 
-    function getRecordByAddr(address _addr) public view returns (Record memory record_) {
+    function getRecordByAddr(address _addr)
+        public
+        view
+        returns (Record memory record_)
+    {
         require(_addr != address(0));
         record_ = addrToRecord[_addr];
     }
 
-    function getRecordByName(string memory _name) public view returns (Record memory record_) {
+    function getRecordByName(string memory _name)
+        public
+        view
+        returns (Record memory record_)
+    {
         require(bytes(_name).length != 0);
         record_ = nameToRecord[_name];
     }
@@ -35,7 +43,7 @@ contract NameSystem is AccessControl {
             nameToRecord[_name] == address(0) &&
                 bytes(addrToName[_addr]).length == 0
         );*/
-       Record memory record = Record(recordCount, _name, _addr);
+        Record memory record = Record(recordCount, _name, _addr);
 
         addrToRecord[_addr] = record;
         nameToRecord[_name] = record;
@@ -44,11 +52,7 @@ contract NameSystem is AccessControl {
         success_ = true;
     }
 
-    function getRecord(uint256 _id)
-        public
-        view
-        returns (Record memory record)
-    {
+    function getRecord(uint256 _id) public view returns (Record memory record) {
         record = indexRecord[_id];
     }
 

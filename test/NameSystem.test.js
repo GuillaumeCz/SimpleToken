@@ -1,55 +1,68 @@
 const NameSystem = artifacts.require("./NameSystem.sol");
 
 contract("NameSystem", accounts => {
-  it("...should link", () => {
-    const name0 = "Open";
+   const name0 = "Johnny";
     const name1 = "AliBaba";
 
     const addr0 = accounts[0];
     const addr1 = accounts[1];
+  const user = accounts[5];
 
-    let nameSystemInstance;
+  const record0 = {
+    index: 0,
+    addr: addr0,
+    name: name0,
+  }
 
-    return NameSystem.deployed()
-      .then(instance => {
-        nameSystemInstance = instance;
+  let instance;
 
-        const pr0 = nameSystemInstance.linkAddrToName.sendTransaction(
-          addr0,
-          name0
-        );
-        const pr1 = nameSystemInstance.linkAddrToName.sendTransaction(
-          addr1,
-          name1
-        );
-
-        return Promise.all([pr0, pr1]);
-      })
-      .then(res =>
-        Promise.all([
-          nameSystemInstance.getName.call(addr0),
-          nameSystemInstance.getAddr.call(name0),
-          nameSystemInstance.getName.call(addr1),
-          nameSystemInstance.getAddr.call(name1),
-          nameSystemInstance.getRecordCount.call()
-        ])
-      )
-      .then(([_name0, _addr0, _name1, _addr1, _cpt]) => {
-        assert.equal(_name0, name0);
-        assert.equal(_addr0, addr0);
-        assert.equal(_name1, name1);
-        assert.equal(_addr1, addr1);
-        assert.equal(_cpt.toNumber(), 2);
-        return Promise.all([
-          nameSystemInstance.getRecord.call(0),
-          nameSystemInstance.getRecord.call(_cpt.toNumber() - 1)
-        ]);
-      })
-      .then(([record0, record1]) => {
-        assert.equal(record0.name_, name0);
-        assert.equal(record0.addr_, addr0);
-        assert.equal(record1.name_, name1);
-        assert.equal(record1.addr_, addr1);
-      });
+  before(() => {
+    NameSystem.deployed().then(inst => {
+      instance = inst;
+    });
   });
+
+  it("...should see if addr0 is still an admin", () => 
+    instance.isAdmin(addr0)
+      .then(isAd => assert.equal(isAd, true)));
+
+  it("...should be empty", () => 
+    instance.getRecordCount()
+      .then(cpt => assert.equal(cpt, 0)));
+
+  it("...should add a record", () => 
+    instance
+      .addRecord(addr0, name0)
+      .then(() => instance.getRecordCount())
+      .then(cpt => assert.equal(cpt, 1))
+  );
+
+  it('...should throw an error if a non-admin user wants to create a record', () => 
+    instance.addRecord(addr1, name1, { from: user })
+    .catch(err => assert.include(err.toString(), 'Error'))
+  )
+
+  it('...should retrieve a record', () => 
+    instance.getRecord(0)
+    .then(record => {
+      assert.equal(record.index, 0)
+      assert.equal(record.name, name0);
+      assert.equal(record.addr, addr0);
+    }));
+
+  it("...should get a record from an address", () => 
+    instance.getRecordByAddr(addr0)
+    .then(record => {
+      assert.equal(record.index, 0)
+      assert.equal(record.name, name0);
+      assert.equal(record.addr, addr0);
+    }));
+
+  it('...should get a record from a name', () =>
+    instance.getRecordByName(name0)
+      .then(record => {
+         assert.equal(record.index, 0)
+      assert.equal(record.name, name0);
+      assert.equal(record.addr, addr0);
+      }));
 });

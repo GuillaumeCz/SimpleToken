@@ -1,52 +1,55 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 import "./AccessControl.sol";
 
 contract NameSystem is AccessControl {
     uint256 internal recordCount = 0;
 
-    struct AddrNameRecord {
+    struct Record {
+        uint256 index;
         string name;
         address addr;
     }
 
-    mapping(string => address) internal nameToAddr;
-    mapping(address => string) internal addrToName;
-    mapping(uint256 => AddrNameRecord) internal indexRecord;
+    mapping(string => Record) internal nameToRecord;
+    mapping(address => Record) internal addrToRecord;
+    mapping(uint256 => Record) internal indexRecord;
 
-    function getName(address _addr) public view returns (string memory name_) {
+    function getRecordByAddr(address _addr) public view returns (Record memory record_) {
         require(_addr != address(0));
-        name_ = addrToName[_addr];
+        record_ = addrToRecord[_addr];
     }
 
-    function getAddr(string memory _name) public view returns (address addr_) {
+    function getRecordByName(string memory _name) public view returns (Record memory record_) {
         require(bytes(_name).length != 0);
-        addr_ = nameToAddr[_name];
+        record_ = nameToRecord[_name];
     }
 
-    function linkAddrToName(address _addr, string memory _name)
+    function addRecord(address _addr, string memory _name)
         public
-        onlyUser
+        onlyAdmin
         returns (bool success_)
     {
-        require(
-            nameToAddr[_name] == address(0) &&
+        /*require(
+            nameToRecord[_name] == address(0) &&
                 bytes(addrToName[_addr]).length == 0
-        );
-        addrToName[_addr] = _name;
-        nameToAddr[_name] = _addr;
-        indexRecord[recordCount++] = AddrNameRecord(_name, _addr);
+        );*/
+       Record memory record = Record(recordCount, _name, _addr);
+
+        addrToRecord[_addr] = record;
+        nameToRecord[_name] = record;
+        indexRecord[recordCount] = record;
+        recordCount++;
         success_ = true;
     }
 
     function getRecord(uint256 _id)
         public
         view
-        returns (string memory name_, address addr_)
+        returns (Record memory record)
     {
-        AddrNameRecord memory record = indexRecord[_id];
-        name_ = record.name;
-        addr_ = record.addr;
+        record = indexRecord[_id];
     }
 
     function getRecordCount() public view returns (uint256 counter_) {

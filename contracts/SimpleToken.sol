@@ -18,13 +18,13 @@ contract SimpleToken is ERC721Full, AccessControl {
     mapping(uint256 => SimpleTkn) private _tokenList;
 
     modifier hasAccess(uint256 _tokenId) {
-      bool isAnAdmin = isAdmin(msg.sender);
-      bool isTheOwner = address(uint160(ownerOf(_tokenId))) == msg.sender;
-      
-      // TODO: Check how to compare these 2 addresses
-      // require(isAnAdmin || isTheOwner);
-      require(isAnAdmin || !isTheOwner);
-      _;
+        bool isAnAdmin = isAdmin(msg.sender);
+        bool isTheOwner = address(uint160(ownerOf(_tokenId))) == msg.sender;
+
+        // TODO: Check how to compare these 2 addresses
+        // require(isAnAdmin || isTheOwner);
+        require(isAnAdmin || !isTheOwner);
+        _;
     }
 
     constructor(string memory _name, string memory _symbol)

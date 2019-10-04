@@ -10,7 +10,7 @@ contract AccessControl {
     }
 
     modifier existsAsUser(address _user) {
-      require(userList[_user]);
+        require(userList[_user]);
         _;
     }
 

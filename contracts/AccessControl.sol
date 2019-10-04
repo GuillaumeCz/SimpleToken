@@ -9,6 +9,11 @@ contract AccessControl {
         _;
     }
 
+    modifier existsAsUser(address _user) {
+      require(userList[_user]);
+        _;
+    }
+
     modifier onlyUser() {
         require(userList[msg.sender]);
         _;
@@ -16,6 +21,7 @@ contract AccessControl {
 
     constructor() public {
         adminList[msg.sender] = true;
+        userList[msg.sender] = true;
     }
 
     function addUser(address _addr) public onlyAdmin {
@@ -23,8 +29,8 @@ contract AccessControl {
     }
 
     function addAdmin(address _addr) public onlyAdmin {
-        userList[_addr] = true;
         adminList[_addr] = true;
+        addUser(_addr);
     }
 
     function removeUser(address _addr) public onlyAdmin {

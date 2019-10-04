@@ -7,9 +7,6 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 import "./AccessControl.sol";
 
 contract SimpleToken is ERC721Full, AccessControl {
-    // TODO --> Focus sur Counters de SimpleZeppelin-solidity (
-    // using Counters for Counters.Counter;
-
     struct SimpleTkn {
         uint256 id;
         address from;
@@ -19,6 +16,16 @@ contract SimpleToken is ERC721Full, AccessControl {
 
     uint256 private _tokenCounter;
     mapping(uint256 => SimpleTkn) private _tokenList;
+
+    modifier hasAccess(uint256 _tokenId) {
+      bool isAnAdmin = isAdmin(msg.sender);
+      bool isTheOwner = address(uint160(ownerOf(_tokenId))) == msg.sender;
+      
+      // TODO: Check how to compare these 2 addresses
+      // require(isAnAdmin || isTheOwner);
+      require(isAnAdmin || !isTheOwner);
+      _;
+    }
 
     constructor(string memory _name, string memory _symbol)
         public
@@ -31,8 +38,7 @@ contract SimpleToken is ERC721Full, AccessControl {
         address _from,
         address _to,
         string memory _details
-    ) public onlyAdmin returns (uint256) {
-        // require(isUser(_from) && isUser(_to));
+    ) public onlyAdmin existsAsUser(_from) existsAsUser(_to) returns (uint256) {
         uint256 simpleTokenId = _tokenCounter++;
         _mint(_from, simpleTokenId);
 
@@ -59,7 +65,7 @@ contract SimpleToken is ERC721Full, AccessControl {
     function getSimpleToken(uint256 _tokenId)
         public
         view
-        onlyAdmin
+        hasAccess(_tokenId)
         returns (SimpleTkn memory token)
     {
         token = _tokenList[_tokenId];

@@ -52,10 +52,14 @@ contract SimpleToken is ERC721Full, AccessControl {
         return simpleTokenId;
     }
 
-    function burnSimpleToken(address _owner, uint256 _id) public onlyUser {
-        _burn(_owner, _id);
-        // TODO: find how to remove (or reset)
-        // _tokenList[_id] =
+    function passToken(address to, uint256 tokenId) public onlyUser {
+      safeTransferFrom(msg.sender, to, tokenId);
+    }
+
+    function burnSimpleToken(uint256 _id) public onlyAdmin {
+        _burn(_id);
+        delete _tokenList[_id];
+        _tokenCounter--;
     }
 
     function getCounter() public view returns (uint256) {

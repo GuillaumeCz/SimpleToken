@@ -77,7 +77,7 @@ contract("SimpleToken", accounts => {
 
   it("...should transfer the SimpleToken 0 from admin to user", () =>
     instance
-      .safeTransferFrom(admin, user, 0, {from: admin})
+      .passToken(user, 0, {from: admin})
       .then(() => instance.ownerOf(0))
       .then(owner => {
         assert.equal(owner, user);
@@ -90,4 +90,13 @@ contract("SimpleToken", accounts => {
         assert.equal(cptAdmin, 0);
         assert.equal(cptUser, 2);
       }));
+
+  it("...should burn the SimpleToken 0", () => 
+    instance.burnSimpleToken(0, { from: admin })
+    .then(() => instance.getCounter())
+    .then(cpt => {
+      assert.equal(cpt, 1);
+      return instance.balanceOf(user);
+    })
+    .then(cpt => assert.equal(cpt, 1)));
 });

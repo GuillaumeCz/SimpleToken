@@ -12,10 +12,12 @@
   },
   "devDependencies": {
     "prettier": "^1.18.2",
-    "prettier-plugin-solidity": "^1.0.0-alpha.32"
+    "prettier-plugin-solidity": "^1.0.0-alpha.32",
+    "solidity-coverage": "^0.6.7"
   },
   "scripts": {
     "test": "truffle test",
+    "coverage": "solidity-coverage",
     "prettier": "prettier --write '**/*.js' '**/*.sol'",
     "qa": "npm run prettier && truffle test"
   },

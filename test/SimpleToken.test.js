@@ -74,4 +74,15 @@ contract("SimpleToken", accounts => {
       .getSimpleToken(0, {from: user})
       .then(() => assert.isOk(true))
       .catch(err => assert.isOk(false)));
+
+  it("...should transfer the SimpleToken 0 from admin to user", () => 
+    instance.safeTransferFrom(admin, user, 0, { from: admin })
+      .then(() => instance.ownerOf(0))
+      .then(owner => {
+        assert.equal(owner, user);
+        return Promise.all([instance.balanceOf(user), instance.balanceOf(admin)])
+      }).then(([cptUser, cptAdmin]) => {
+        assert.equal(cptAdmin, 0);
+        assert.equal(cptUser, 2)
+      }));
 });

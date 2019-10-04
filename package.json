@@ -19,7 +19,8 @@
     "test": "truffle test",
     "coverage": "solidity-coverage",
     "prettier": "prettier --write '**/*.js' '**/*.sol'",
-    "qa": "npm run prettier && truffle test"
+    "qa": "npm run prettier && truffle test",
+    "clean": "rm -rf build coverage coverage.json coverageEnv scTopics"
   },
   "author": "",
   "license": "MIT"

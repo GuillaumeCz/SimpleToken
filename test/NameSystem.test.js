@@ -1,5 +1,3 @@
-const NameSystem = artifacts.require("./NameSystem.sol");
-
 const isEqual = (record, index, name, addr) => {
   assert.equal(record.index, index);
   assert.equal(record.name, name);
@@ -18,17 +16,6 @@ contract("NameSystem", accounts => {
   const addr0 = accounts[0];
   const addr1 = accounts[1];
   const user = accounts[5];
-
-  let instance;
-
-  before(() => {
-    NameSystem.deployed().then(inst => {
-      instance = inst;
-    });
-  });
-
-  it("...should see if addr0 is still an admin", () =>
-    instance.isAdmin(addr0).then(isAd => assert.equal(isAd, true)));
 
   it("...should be empty", () =>
     instance.getRecordCount().then(cpt => assert.equal(cpt, 0)));

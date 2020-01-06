@@ -1,27 +1,17 @@
-const SimpleToken = artifacts.require("./SimpleToken.sol");
-
 contract("SimpleToken", accounts => {
   const admin = accounts[1];
   const user = accounts[2];
-  const unregistredUser = accounts[3];
+  const unregistredUser = accounts[5];
 
   const details0 = "TestMe0";
-  const details1 = "TestMe1";
 
-  let instance;
+  before(() => Promise.all([instance.addAdmin(admin), instance.addUser(user)]));
 
-  before(() => {
-    SimpleToken.deployed().then(inst => {
-      instance = inst;
-      return Promise.all([instance.addAdmin(admin), instance.addUser(user)]);
-    });
-  });
-
-  it("..should create a SimpleToken by an admin, using 2 recorded users", () =>
-    instance
-      .createSimpleToken(admin, user, details0)
+  it("..should create a SimpleToken by an admin, using 2 recorded users", () => {
+    return instance
+      .createSimpleToken(admin, user, details0, { from: admin })
       .then(() => instance.getCounter())
-      .then(cpt => assert.equal(cpt, 1)));
+      .then(cpt => assert.equal(cpt, 1))});
 
   it("...should fail when a non-admin user tries to create an SimpleToken", () =>
     instance

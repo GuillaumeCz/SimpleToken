@@ -4,9 +4,9 @@ pragma experimental ABIEncoderV2;
 // see https://github.com/OpenZeppelin/simplezeppelin-solidity/tree/master/contracts/token/ERC721
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 
-import "./AccessControl.sol";
+import "./NameSystem.sol";
 
-contract SimpleToken is ERC721Full, AccessControl {
+contract SimpleToken is ERC721Full, NameSystem {
     struct SimpleTkn {
         uint256 id;
         address from;

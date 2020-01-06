@@ -1,5 +1,3 @@
-const AccessControl = artifacts.require("./AccessControl");
-
 contract("AccessControl", accounts => {
   const deployerAddr = accounts[0];
   const admin0 = accounts[1];
@@ -7,19 +5,11 @@ contract("AccessControl", accounts => {
   const user0 = accounts[3];
   const user1 = accounts[4];
   const user2 = accounts[5];
-
-  let instance;
-
-  before(() => {
-    AccessControl.deployed().then(inst => {
-      instance = inst;
-    });
-  });
-
-  it("...should test if the user that deployed is an admin", () =>
-    instance
+  
+  it("...should test if the user that deployed is an admin", () => {
+    return instance
       .isAdmin(deployerAddr)
-      .then(isAdmin => assert.equal(isAdmin, true)));
+      .then(isAdmin => assert.equal(isAdmin, true))})
 
   it("...should add an admin", () =>
     instance

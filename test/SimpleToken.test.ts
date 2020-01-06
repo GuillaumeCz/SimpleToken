@@ -1,17 +1,26 @@
+import {SimpleTokenInstance} from "../types/truffle-contracts";
+
+const stContract = artifacts.require('SimpleToken');
+
 contract("SimpleToken", accounts => {
   const admin = accounts[1];
   const user = accounts[2];
   const unregistredUser = accounts[5];
 
   const details0 = "TestMe0";
+  let instance: SimpleTokenInstance;
 
-  before(() => Promise.all([instance.addAdmin(admin), instance.addUser(user)]));
+  before(() => stContract.deployed().then((inst: SimpleTokenInstance) => {
+    instance = inst;
+    return Promise.all([instance.addAdmin(admin), instance.addUser(user)])
+  }));
+
 
   it("..should create a SimpleToken by an admin, using 2 recorded users", () => {
     return instance
       .createSimpleToken(admin, user, details0, { from: admin })
       .then(() => instance.getCounter())
-      .then(cpt => assert.equal(cpt, 1))});
+      .then(cpt => assert.equal(cpt.toNumber(), 1))});
 
   it("...should fail when a non-admin user tries to create an SimpleToken", () =>
     instance
@@ -32,7 +41,7 @@ contract("SimpleToken", accounts => {
       .catch(() => assert.isOk(true)));
 
   it("...should get an owner's balance", () =>
-    instance.balanceOf(admin).then(balance => assert.equal(balance, 1)));
+    instance.balanceOf(admin).then(balance => assert.equal(balance.toNumber(), 1)));
 
   it("...should check if admin is the onwer of the token 0", () =>
     instance.ownerOf(0).then(owner => assert.equal(owner, admin)));
@@ -54,7 +63,7 @@ contract("SimpleToken", accounts => {
     instance
       .createSimpleToken(user, admin, details0)
       .then(() => instance.getCounter())
-      .then(cpt => assert.equal(cpt, 2)));
+      .then(cpt => assert.equal(cpt.toNumber(), 2)));
 
   it("...should check if user is the onwer of the token 1", () =>
     instance.ownerOf(1).then(owner => assert.equal(owner, user)));
@@ -77,16 +86,16 @@ contract("SimpleToken", accounts => {
         ]);
       })
       .then(([cptUser, cptAdmin]) => {
-        assert.equal(cptAdmin, 0);
-        assert.equal(cptUser, 2);
+        assert.equal(cptAdmin.toNumber(), 0);
+        assert.equal(cptUser.toNumber(), 2);
       }));
 
   it("...should burn the SimpleToken 0", () => 
     instance.burnSimpleToken(0, { from: admin })
     .then(() => instance.getCounter())
     .then(cpt => {
-      assert.equal(cpt, 1);
+      assert.equal(cpt.toNumber(), 1);
       return instance.balanceOf(user);
     })
-    .then(cpt => assert.equal(cpt, 1)));
+    .then(cpt => assert.equal(cpt.toNumber(), 1)));
 });

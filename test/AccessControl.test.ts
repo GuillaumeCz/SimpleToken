@@ -1,10 +1,20 @@
-contract("AccessControl", accounts => {
+import {SimpleTokenInstance} from "../types/truffle-contracts";
+
+const stContract = artifacts.require('SimpleToken');
+
+contract("AccessControl", (accounts) => {
   const deployerAddr = accounts[0];
   const admin0 = accounts[1];
   const admin1 = accounts[2];
   const user0 = accounts[3];
   const user1 = accounts[4];
   const user2 = accounts[5];
+
+  let instance: SimpleTokenInstance;
+
+  before(() => stContract.deployed().then((inst: SimpleTokenInstance) => {
+    instance = inst;
+  }));
   
   it("...should test if the user that deployed is an admin", () => {
     return instance
@@ -23,7 +33,7 @@ contract("AccessControl", accounts => {
   it("...should autorize an admin to add a user", () =>
     instance
       .addUser(user0)
-      .then(() => instance.isUser.call(user0))
+      .then(() => instance.isUser(user0))
       .then(isUser => assert.equal(isUser, true)));
 
   it("...should autorize an admin to add an admin", () =>

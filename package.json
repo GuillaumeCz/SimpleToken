@@ -8,19 +8,32 @@
   },
   "dependencies": {
     "openzeppelin-solidity": "^2.2.0",
-    "solc": "^0.5.7"
+    "solc": "^0.5.7",
+    "truffle-contract": "^4.0.31"
   },
   "devDependencies": {
+    "@types/bignumber.js": "^5.0.0",
+    "@types/chai": "^4.2.7",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.1.4",
     "prettier": "^1.18.2",
     "prettier-plugin-solidity": "^1.0.0-alpha.32",
-    "solidity-coverage": "^0.6.7"
+    "solidity-coverage": "^0.6.7",
+    "truffle-typings": "^1.0.8",
+    "ts-generator": "0.0.8",
+    "ts-node": "^8.5.4",
+    "typechain": "^1.0.3",
+    "typechain-target-truffle": "^1.0.2",
+    "typescript": "^3.7.4"
   },
   "scripts": {
-    "test": "truffle test",
+    "test": "truffle test && npm run tsc",
     "coverage": "solidity-coverage",
     "prettier": "prettier --write '**/*.js' '**/*.sol'",
     "qa": "npm run prettier && truffle test",
-    "clean": "rm -rf build coverage coverage.json coverageEnv scTopics"
+    "clean": "rm -rf build coverage coverage.json coverageEnv scTopics",
+    "generate": "truffle compile && typechain --target truffle 'build/contracts/**/*.json'",
+    "tsc": "tsc --noEmit"
   },
   "author": "",
   "license": "MIT"

@@ -7,7 +7,7 @@ contract("SimpleToken", accounts => {
 
   before(() => Promise.all([instance.addAdmin(admin), instance.addUser(user)]));
 
-  it("..should create a SimpleToken by an admin, using 2 recorded users", () => {
+  it("...should create a SimpleToken by an admin, using 2 recorded users", () => {
     return instance
       .createSimpleToken(admin, user, details0, {from: admin})
       .then(() => instance.getCounter())

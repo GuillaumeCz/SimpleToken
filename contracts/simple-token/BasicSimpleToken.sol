@@ -1,8 +1,11 @@
 pragma solidity ^0.5.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
+import "@openzeppelin/contracts/drafts/Counters.sol";
 
 contract BasicSimpleToken is ERC721 {
+    using Counters for Counters.Counter;
+
     struct SimpleTkn {
         uint256 id;
         address from;
@@ -10,14 +13,10 @@ contract BasicSimpleToken is ERC721 {
         string details;
     }
 
-    uint256 internal _tokenCounter;
+    Counters.Counter internal _tokenCounter;
     mapping(uint256 => SimpleTkn) internal _tokenList;
 
-    constructor() public {
-        _tokenCounter = 0;
-    }
-
     function getCounter() public view returns (uint256) {
-        return _tokenCounter;
+        return _tokenCounter.current();
     }
 }

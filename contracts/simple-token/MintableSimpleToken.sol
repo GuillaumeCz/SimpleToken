@@ -11,7 +11,7 @@ contract MintableSimpleToken is BasicSimpleToken, UserRole {
         string memory _details
     ) public onlyAdmin existsAsUser(_from) existsAsUser(_to) returns (uint256) {
         uint256 simpleTokenId = _tokenCounter++;
-        _mint(_from, simpleTokenId);
+        _safeMint(_from, simpleTokenId);
 
         SimpleTkn memory newSimpleToken = SimpleTkn(
             simpleTokenId,

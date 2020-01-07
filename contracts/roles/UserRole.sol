@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "openzeppelin-solidity/contracts/access/Roles.sol";
+import "@openzeppelin/contracts/access/Roles.sol";
 import "./AdminRole.sol";
 
 contract UserRole is AdminRole {

@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 
 // see https://github.com/OpenZeppelin/simplezeppelin-solidity/tree/master/contracts/token/ERC721
-import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
 import "./simple-token/MintableSimpleToken.sol";
 import "./simple-token/BurnableSimpleToken.sol";
 import "./simple-token/PassableSimpleToken.sol";

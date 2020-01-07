@@ -1,12 +1,10 @@
 import Deployer = Truffle.Deployer;
-import {MigrationsContract, SimpleTokenContract} from "../types/truffle-contracts";
+import {MigrationsContract} from "../types/truffle-contracts";
 
-const Migrations: MigrationsContract = artifacts.require("Migrations");
-const SimpleToken: SimpleTokenContract = artifacts.require("SimpleToken");
+const Migrations: MigrationsContract = artifacts.require("./Migrations");
 
 module.exports = function(deployer: Deployer) {
   deployer.deploy(Migrations);
-  deployer.deploy(SimpleToken, "SimpleToken", "SpTkn");
 } as Truffle.Migration;
 
 export {};

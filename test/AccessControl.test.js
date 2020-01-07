@@ -5,26 +5,22 @@ contract("AccessControl", accounts => {
   const user0 = accounts[3];
   const user1 = accounts[4];
   const user2 = accounts[5];
-  
+
   it("...should test if the user that deployed is an admin", () => {
-    return instance
-      .isAdmin(deployerAddr)
-      .then((isAdmin) => {
-        assert.equal(isAdmin, true)
-      })})
+    return instance.isAdmin(deployerAddr).then(isAdmin => {
+      assert.equal(isAdmin, true);
+    });
+  });
 
   it("...should add an admin", () => {
     return instance
       .addAdmin(admin0)
       .then(() => instance.isAdmin(admin0))
-      .then((isAdmin) => assert.equal(isAdmin, true))
+      .then(isAdmin => assert.equal(isAdmin, true));
   });
 
-
   it("...should considere an admin as a user", () => {
-    return instance
-      .isUser(admin0)
-      .then(isUser => assert.equal(isUser, true));
+    return instance.isUser(admin0).then(isUser => assert.equal(isUser, true));
   });
 
   it("...should autorize an admin to add a user", () => {
@@ -38,27 +34,27 @@ contract("AccessControl", accounts => {
     return instance
       .addAdmin(admin1, {from: admin0})
       .then(() => instance.isAdmin(admin1))
-      .then(isAdmin => assert.equal(isAdmin, true))
+      .then(isAdmin => assert.equal(isAdmin, true));
   });
 
   it("...should refuse that a user create another user", () => {
     return instance
       .addUser(user1, {from: user0})
-      .catch(err => assert.include(err.toString(), "Error"))
+      .catch(err => assert.include(err.toString(), "Error"));
   });
 
   it("...should authorize an admin to remove an user", () => {
     return instance
       .removeUser(user0, {from: admin0})
       .then(() => instance.isUser(user0))
-      .then(isUser => assert.equal(isUser, false))
+      .then(isUser => assert.equal(isUser, false));
   });
 
   it("...should authorize an admin to remove another admin", () => {
     return instance
       .removeAdmin(admin1, {from: admin0})
       .then(() => instance.isAdmin(admin1))
-      .then(isAdmin => assert.equal(isAdmin, false))
+      .then(isAdmin => assert.equal(isAdmin, false));
   });
 
   it("...should unauthorize a user to remove another user", () => {
@@ -67,5 +63,4 @@ contract("AccessControl", accounts => {
       .then(() => instance.removeUser(user2, {from: user1}))
       .catch(err => assert.include(err.toString(), "Error"));
   });
-
 });

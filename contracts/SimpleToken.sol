@@ -7,8 +7,12 @@ import "./simple-token/MintableSimpleToken.sol";
 import "./simple-token/BurnableSimpleToken.sol";
 import "./simple-token/PassableSimpleToken.sol";
 
-contract SimpleToken is ERC721Full, MintableSimpleToken, BurnableSimpleToken, PassableSimpleToken {
-
+contract SimpleToken is
+    ERC721Full,
+    MintableSimpleToken,
+    BurnableSimpleToken,
+    PassableSimpleToken
+{
     constructor(string memory _name, string memory _symbol)
         public
         ERC721Full(_name, _symbol)
@@ -24,10 +28,10 @@ contract SimpleToken is ERC721Full, MintableSimpleToken, BurnableSimpleToken, Pa
         _;
     }
     function getSimpleToken(uint256 _tokenId)
-    public
-    view
-    hasAccess(_tokenId)
-    returns (SimpleTkn memory token)
+        public
+        view
+        hasAccess(_tokenId)
+        returns (SimpleTkn memory token)
     {
         token = _tokenList[_tokenId];
     }

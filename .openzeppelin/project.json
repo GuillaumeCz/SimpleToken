@@ -1,10 +1,23 @@
 {
   "manifestVersion": "2.2",
-  "contracts": {},
+  "contracts": {
+    "SimpleToken": "SimpleToken",
+    "AdminRole": "AdminRole"
+  },
   "dependencies": {
     "@openzeppelin/contracts-ethereum-package": "^2.4.0"
   },
   "name": "erc721",
   "version": "1.0.0",
-  "telemetryOptIn": true
+  "telemetryOptIn": true,
+  "compiler": {
+    "manager": "openzeppelin",
+    "compilerSettings": {
+      "optimizer": {
+        "enabled": false,
+        "runs": "200"
+      }
+    },
+    "solcVersion": "0.5.16"
+  }
 }

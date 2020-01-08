@@ -1,9 +1,10 @@
 pragma solidity ^0.5.0;
 
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import "@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol";
 import "./UserRole.sol";
 
-contract AdminRole is UserRole {
+contract AdminRole is Initializable, UserRole {
     using Roles for Roles.Role;
 
     event AdminAdded(address indexed account);
@@ -11,9 +12,14 @@ contract AdminRole is UserRole {
 
     Roles.Role private _admins;
 
-    constructor() internal {
+    function initialize() initializer public {
+        UserRole.initialize();
         _addAdmin(msg.sender);
     }
+
+//    constructor() internal {
+//        _addAdmin(msg.sender);
+//    }
 
     modifier onlyAdmin() {
         require(isAdmin(msg.sender), "DOES_NOT_HAVE_ADMIN_ROLE");

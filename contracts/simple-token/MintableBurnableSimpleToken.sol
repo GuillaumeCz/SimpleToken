@@ -1,9 +1,15 @@
 pragma solidity ^0.5.0;
 
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import "./BasicSimpleToken.sol";
 import "../roles/AdminRole.sol";
 
-contract MintableBurnableSimpleToken is BasicSimpleToken, AdminRole {
+contract MintableBurnableSimpleToken is Initializable, BasicSimpleToken, AdminRole {
+
+    function initialize() initializer public {
+        BasicSimpleToken.initialize();
+    }
+
     function safeMint(address _from, address _to, string memory _details)
         public
         onlyAdmin

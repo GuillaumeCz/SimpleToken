@@ -1,8 +1,9 @@
 pragma solidity ^0.5.0;
 
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import "@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol";
 
-contract UserRole {
+contract UserRole is Initializable {
     using Roles for Roles.Role;
 
     event UserAdded(address indexed account);
@@ -10,9 +11,13 @@ contract UserRole {
 
     Roles.Role private _users;
 
-    constructor() internal {
+    function initialize() initializer public {
         _addUser(msg.sender);
     }
+
+//    constructor() internal {
+//        _addUser(msg.sender);
+//    }
 
     modifier existsAsUser(address _user) {
         require(_users.has(_user), "DOES_NOT_HAVE_USER_ROLE");

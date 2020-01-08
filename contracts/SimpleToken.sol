@@ -13,10 +13,7 @@ contract SimpleToken is
     MintableBurnableSimpleToken,
     PassableSimpleToken
 {
-    constructor()
-        public
-        ERC721Metadata("SimpleToken", "spTkn")
-    {}
+    constructor() public ERC721Metadata("SimpleToken", "spTkn") {}
 
     modifier hasAccess(uint256 _tokenId) {
         bool isAnAdmin = isAdmin(msg.sender);

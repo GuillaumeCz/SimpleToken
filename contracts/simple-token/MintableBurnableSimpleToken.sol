@@ -4,12 +4,13 @@ import "./BasicSimpleToken.sol";
 import "../roles/AdminRole.sol";
 
 contract MintableBurnableSimpleToken is BasicSimpleToken, AdminRole {
-
-    function safeMint(
-        address _from,
-        address _to,
-        string memory _details
-    ) public onlyAdmin existsAsUser(_from) existsAsUser(_to) returns (uint256) {
+    function safeMint(address _from, address _to, string memory _details)
+        public
+        onlyAdmin
+        existsAsUser(_from)
+        existsAsUser(_to)
+        returns (uint256)
+    {
         uint256 simpleTokenId = _tokenCounter.current();
         _safeMint(_from, simpleTokenId);
 

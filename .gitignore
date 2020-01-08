@@ -5,3 +5,5 @@ coverageEnv
 coverage.json
 scTopics
 
+
+.openzeppelin/.session

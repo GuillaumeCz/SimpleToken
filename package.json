@@ -7,7 +7,9 @@
     "test": "test"
   },
   "dependencies": {
+    "@openzeppelin/cli": "^2.6.0",
     "@openzeppelin/contracts": "^2.4.0",
+    "@openzeppelin/contracts-ethereum-package": "^2.4.0",
     "solc": "^0.5.7"
   },
   "devDependencies": {

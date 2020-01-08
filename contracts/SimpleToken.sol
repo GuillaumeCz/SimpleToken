@@ -2,18 +2,20 @@ pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 
 // see https://github.com/OpenZeppelin/simplezeppelin-solidity/tree/master/contracts/token/ERC721
-import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721Metadata.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721Enumerable.sol";
 import "./simple-token/MintableBurnableSimpleToken.sol";
 import "./simple-token/PassableSimpleToken.sol";
 
 contract SimpleToken is
-    ERC721Full,
+    ERC721Metadata,
+    ERC721Enumerable,
     MintableBurnableSimpleToken,
     PassableSimpleToken
 {
-    constructor(string memory _name, string memory _symbol)
+    constructor()
         public
-        ERC721Full(_name, _symbol)
+        ERC721Metadata("SimpleToken", "spTkn")
     {}
 
     modifier hasAccess(uint256 _tokenId) {

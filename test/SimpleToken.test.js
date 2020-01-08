@@ -1,4 +1,7 @@
 contract("SimpleToken", accounts => {
+
+  const name = "SimpleToken";
+  const symbol = "spTkn"
   const admin = accounts[1];
   const user = accounts[2];
   const unregistredUser = accounts[5];
@@ -6,6 +9,14 @@ contract("SimpleToken", accounts => {
   const details0 = "TestMe0";
 
   before(() => Promise.all([instance.addAdmin(admin), instance.addUser(user)]));
+
+  it('...should have the right name and symbol', () => {
+    return Promise.all([instance.name(), instance.symbol()])
+      .then(([_name, _symbol]) => {
+        assert.equal(_name, name);
+        assert.equal(_symbol, symbol);
+      })
+  })
 
   it("...should create a SimpleToken by an admin, using 2 recorded users", () => {
     return instance

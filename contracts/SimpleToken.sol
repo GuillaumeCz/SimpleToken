@@ -3,14 +3,12 @@ pragma experimental ABIEncoderV2;
 
 // see https://github.com/OpenZeppelin/simplezeppelin-solidity/tree/master/contracts/token/ERC721
 import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
-import "./simple-token/MintableSimpleToken.sol";
-import "./simple-token/BurnableSimpleToken.sol";
+import "./simple-token/MintableBurnableSimpleToken.sol";
 import "./simple-token/PassableSimpleToken.sol";
 
 contract SimpleToken is
     ERC721Full,
-    MintableSimpleToken,
-    BurnableSimpleToken,
+    MintableBurnableSimpleToken,
     PassableSimpleToken
 {
     constructor(string memory _name, string memory _symbol)

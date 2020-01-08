@@ -1,9 +1,8 @@
 pragma solidity ^0.5.0;
 
 import "@openzeppelin/contracts/access/Roles.sol";
-import "./AdminRole.sol";
 
-contract UserRole is AdminRole {
+contract UserRole {
     using Roles for Roles.Role;
 
     event UserAdded(address indexed account);
@@ -29,14 +28,6 @@ contract UserRole is AdminRole {
         return _users.has(account);
     }
 
-    function addUser(address _addr) public onlyAdmin {
-        _addUser(_addr);
-    }
-
-    function removeUser(address _addr) public onlyAdmin {
-        _removeUser(_addr);
-    }
-
     function _addUser(address account) internal {
         _users.add(account);
         emit UserAdded(account);
@@ -45,10 +36,5 @@ contract UserRole is AdminRole {
     function _removeUser(address _addr) internal {
         _users.remove(_addr);
         emit UserRemoved(_addr);
-    }
-
-    function addAdmin(address _addr) public onlyAdmin {
-        _addAdmin(_addr);
-        _addUser(_addr);
     }
 }

@@ -9,28 +9,28 @@ contract("SimpleToken", accounts => {
 
   it("...should create a SimpleToken by an admin, using 2 recorded users", () => {
     return instance
-      .createSimpleToken(admin, user, details0, {from: admin})
+      .safeMint(admin, user, details0, {from: admin})
       .then(() => instance.getCounter())
       .then(cpt => assert.equal(cpt, 1));
   });
 
   it("...should fail when a non-admin user tries to create an SimpleToken", () => {
     return instance
-      .createSimpleToken(admin, user, details0, {from: user})
+      .safeMint(admin, user, details0, {from: user})
       .then(() => assert.isOk(false, "it should have failed... !"))
       .catch(() => assert.isOk(true));
   });
 
   it("...should fail when creating a SimpleToken with an unregistred user as destinator", () => {
     return instance
-      .createSimpleToken(admin, unregistredUser, details0)
+      .safeMint(admin, unregistredUser, details0)
       .then(() => assert.isOk(false, "it should have failed... !"))
       .catch(() => assert.isOk(true));
   });
 
   it("...should fail when creating a SimpleToken with an unregistred user as the first owner", () => {
     return instance
-      .createSimpleToken(unregistredUser, admin, details0)
+      .safeMint(unregistredUser, admin, details0)
       .then(() => assert.isOk(false, "it should have failed... !"))
       .catch(() => assert.isOk(true));
   });
@@ -60,7 +60,7 @@ contract("SimpleToken", accounts => {
 
   it("..should create another SimpleToken by an admin, using 2 recorded users", () => {
     return instance
-      .createSimpleToken(user, admin, details0)
+      .safeMint(user, admin, details0)
       .then(() => instance.getCounter())
       .then(cpt => assert.equal(cpt, 2));
   });
@@ -95,7 +95,7 @@ contract("SimpleToken", accounts => {
 
   it("...should burn the SimpleToken 0", () => {
     return instance
-      .burnSimpleToken(0, {from: admin})
+      .burn(0, {from: admin})
       .then(() => instance.getCounter())
       .then(cpt => {
         assert.equal(cpt, 1);

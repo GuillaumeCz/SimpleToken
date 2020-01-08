@@ -2,10 +2,10 @@ pragma solidity ^0.5.0;
 
 import "./BasicSimpleToken.sol";
 import "../roles/AdminRole.sol";
-import "../roles/UserRole.sol";
 
-contract MintableSimpleToken is BasicSimpleToken, UserRole {
-    function createSimpleToken(
+contract MintableBurnableSimpleToken is BasicSimpleToken, AdminRole {
+
+    function safeMint(
         address _from,
         address _to,
         string memory _details
@@ -22,5 +22,11 @@ contract MintableSimpleToken is BasicSimpleToken, UserRole {
         _tokenList[simpleTokenId] = newSimpleToken;
         _tokenCounter.increment();
         return simpleTokenId;
+    }
+
+    function burn(uint256 _id) public onlyAdmin {
+        _burn(_id);
+        delete _tokenList[_id];
+        _tokenCounter.decrement();
     }
 }

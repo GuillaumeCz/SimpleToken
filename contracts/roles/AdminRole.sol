@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "@openzeppelin/contracts/access/Roles.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol";
 import "./UserRole.sol";
 
 contract AdminRole is UserRole {

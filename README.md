@@ -15,7 +15,7 @@ npm install -g truffle
 npm install -g ganache-cli
 
 # run this following in a separate terminal
-ganache-cli
+ganache-cli --deterministic
 
 # Compile the contracts 
 truffle compile

@@ -28,6 +28,7 @@
   "scripts": {
     "postinstall": "npm run generate",
     "generate": "truffle compile && typechain --target truffle --outDir types  ./build/**/*.json",
+    "prepare": "npm run generate",
     "test": "truffle test",
     "coverage": "solidity-coverage",
     "prettier": "prettier --write '**/*.js' '**/*.sol'",

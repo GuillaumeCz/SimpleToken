@@ -1,3 +1,7 @@
+import {SimpleTokenInstance} from "../types";
+
+const Contract = artifacts.require('./SimpleToken');
+
 contract("SimpleToken", accounts => {
   const name = "SimpleToken";
   const symbol = "spTkn";
@@ -7,14 +11,28 @@ contract("SimpleToken", accounts => {
 
   const details0 = "TestMe0";
 
-  before(() => Promise.all([instance.addAdmin(admin), instance.addUser(user)]));
+  let instance: SimpleTokenInstance;
+
+  before(() => {
+    return Contract.new().then((inst: SimpleTokenInstance) => {
+      instance = inst;
+      return Promise.all([instance.addAdmin(admin), instance.addUser(user)])
+    });
+  });
 
   it("...should have the right name and symbol", () => {
-    return Promise.all([instance.name(), instance.symbol()]).then(
-      ([_name, _symbol]) => {
-        assert.equal(_name, name);
-        assert.equal(_symbol, symbol);
-      }
+      // return instance.name()
+      //     .then((_name) => {
+      //       assert.equal(_name, name);
+      //       return instance.symbol();
+      //     }).then((_symbol) => {
+      //       assert.equal(_symbol, symbol)
+      //     });
+     return Promise.all([instance.name(), instance.symbol()]).then(
+       ([_name, _symbol]) => {
+         assert.equal(_name, name);
+         assert.equal(_symbol, symbol);
+       }
     );
   });
 
@@ -22,7 +40,7 @@ contract("SimpleToken", accounts => {
     return instance
       .safeMint(admin, user, details0, {from: admin})
       .then(() => instance.getCounter())
-      .then(cpt => assert.equal(cpt, 1));
+      .then((cpt) => assert.equal(cpt.toNumber(), 1));
   });
 
   it("...should fail when a non-admin user tries to create an SimpleToken", () => {
@@ -47,15 +65,15 @@ contract("SimpleToken", accounts => {
   });
 
   it("...should get an owner's balance", () => {
-    return instance.balanceOf(admin).then(balance => assert.equal(balance, 1));
+    return instance.balanceOf(admin).then((balance) => assert.equal(balance.toNumber(), 1));
   });
 
   it("...should check if admin is the onwer of the token 0", () => {
-    return instance.ownerOf(0).then(owner => assert.equal(owner, admin));
+    return instance.ownerOf(0).then((owner) => assert.equal(owner, admin));
   });
 
   it("...should get an SimpleToken with id 0", () => {
-    return instance.getSimpleToken(0, {from: admin}).then(token => {
+    return instance.getSimpleToken(0, {from: admin}).then((token) => {
       assert.equal(admin, token.from);
       assert.equal(user, token.to);
       assert.equal(details0, token.details);
@@ -73,11 +91,11 @@ contract("SimpleToken", accounts => {
     return instance
       .safeMint(user, admin, details0)
       .then(() => instance.getCounter())
-      .then(cpt => assert.equal(cpt, 2));
+      .then((cpt) => assert.equal(cpt.toNumber(), 2));
   });
 
   it("...should check if user is the onwer of the token 1", () => {
-    return instance.ownerOf(1).then(owner => assert.equal(owner, user));
+    return instance.ownerOf(1).then((owner) => assert.equal(owner, user));
   });
 
   it("...should get a SimpleToken if I am the owner", () => {
@@ -91,7 +109,7 @@ contract("SimpleToken", accounts => {
     return instance
       .passToken(user, 0, {from: admin})
       .then(() => instance.ownerOf(0))
-      .then(owner => {
+      .then((owner) => {
         assert.equal(owner, user);
         return Promise.all([
           instance.balanceOf(user),
@@ -99,8 +117,8 @@ contract("SimpleToken", accounts => {
         ]);
       })
       .then(([cptUser, cptAdmin]) => {
-        assert.equal(cptAdmin, 0);
-        assert.equal(cptUser, 2);
+        assert.equal(cptAdmin.toNumber(), 0);
+        assert.equal(cptUser.toNumber(), 2);
       });
   });
 
@@ -108,10 +126,10 @@ contract("SimpleToken", accounts => {
     return instance
       .burn(0, {from: admin})
       .then(() => instance.getCounter())
-      .then(cpt => {
-        assert.equal(cpt, 1);
+      .then((cpt) => {
+        assert.equal(cpt.toNumber(), 1);
         return instance.balanceOf(user);
       })
-      .then(cpt => assert.equal(cpt, 1));
+      .then((cpt) => assert.equal(cpt.toNumber(), 1));
   });
 });

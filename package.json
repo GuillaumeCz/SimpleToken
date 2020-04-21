@@ -7,16 +7,16 @@
     "test": "test"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^2.4.0",
-    "solc": "^0.5.7"
+    "@openzeppelin/contracts": "^2.5.0",
+    "solc": "^0.5.17"
   },
   "devDependencies": {
     "@types/bignumber.js": "^5.0.0",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.1",
-    "prettier": "^1.18.2",
-    "prettier-plugin-solidity": "^1.0.0-alpha.32",
+    "prettier": "^1.19.1",
+    "prettier-plugin-solidity": "^1.0.0-alpha.48",
     "solidity-coverage": "^0.6.7",
     "truffle-typings": "^1.0.8",
     "ts-generator": "0.0.8",
@@ -31,7 +31,7 @@
     "prepare": "npm run generate",
     "test": "truffle test",
     "coverage": "solidity-coverage",
-    "prettier": "prettier --write '**/*.js' '**/*.sol'",
+    "prettier": "prettier --write **/*.ts **/*.sol",
     "qa": "npm run prettier && truffle test",
     "clean": "rm -rf build coverage coverage.json coverageEnv scTopics"
   },

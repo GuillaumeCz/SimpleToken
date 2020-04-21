@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import "@openzeppelin/contracts/access/Roles.sol";
 
+
 contract UserRole {
     using Roles for Roles.Role;
 

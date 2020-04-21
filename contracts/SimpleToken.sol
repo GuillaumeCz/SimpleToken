@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721Enumerable.sol";
 import "./simple-token/MintableBurnableSimpleToken.sol";
 import "./simple-token/PassableSimpleToken.sol";
 
+
 contract SimpleToken is
     ERC721Metadata,
     ERC721Enumerable,
@@ -24,6 +25,7 @@ contract SimpleToken is
         require(isAnAdmin || !isTheOwner);
         _;
     }
+
     function getSimpleToken(uint256 _tokenId)
         public
         view

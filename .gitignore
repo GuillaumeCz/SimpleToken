@@ -5,3 +5,7 @@ coverageEnv
 coverage.json
 scTopics
 
+types
+
+**/*.js
+**/*.js.map

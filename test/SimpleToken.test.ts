@@ -29,8 +29,7 @@ contract("SimpleToken", accounts => {
   });
 
   it("...should have the right name and symbol", () => {
-    return Promise.all([instance.name(), instance.symbol()])
-    .then(
+    return Promise.all([instance.name(), instance.symbol()]).then(
       ([_name, _symbol]: string[]) => {
         assert.equal(_name, name);
         assert.equal(_symbol, symbol);
@@ -42,7 +41,7 @@ contract("SimpleToken", accounts => {
     return instance
       .safeMint(admin, user, details0, {from: admin})
       .then(() => instance.getCounter())
-      .then((cpt:BigNumber) => {
+      .then((cpt: BigNumber) => {
         assert.equal(cpt.toNumber(), 1);
       });
   });
@@ -92,7 +91,6 @@ contract("SimpleToken", accounts => {
     });
   });
 
-
   it("...should get an SimpleToken with id 0", () => {
     return instance.getSimpleToken(0, {from: admin}).then((token: IToken) => {
       assert.equal(admin, token.from);
@@ -122,7 +120,7 @@ contract("SimpleToken", accounts => {
   });
 
   it("...should check if user is the owner of the token 1", () => {
-    return instance.ownerOf(1).then((owner :string) => {
+    return instance.ownerOf(1).then((owner: string) => {
       assert.equal(owner, user);
     });
   });

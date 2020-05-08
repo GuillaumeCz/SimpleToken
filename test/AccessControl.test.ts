@@ -62,10 +62,10 @@ contract("AccessControl", accounts => {
     return instance
       .addUser(user1, {from: user0})
       .then(() => {
-        assert.isOk(false)
+        assert.isOk(false);
       })
       .catch(() => {
-        assert.isOk(true)
+        assert.isOk(true);
       });
   });
 

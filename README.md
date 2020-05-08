@@ -14,14 +14,19 @@ npm install -g truffle
 
 npm install -g ganache-cli
 
-# run this following in a separate terminal
+# run the following in a separate terminal
 ganache-cli --deterministic
 
 # Compile the contracts 
-truffle compile
+npm run compile
 
-#Test the contracts
-truffle test
+# Generate typings
+npm run generate # npm run generate:windows if you're running the project on Windows
+
+# Test the contracts
+npm test
+
 ```
+In order to use Typescript for the tests, you should run carefully regenerate the typings each time you add changes to the contracts and before running the tests.
 
 Have fun ;)
